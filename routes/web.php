@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use App\Http\Controllers\ProjectController;
+
 
 
 /*
@@ -51,3 +53,15 @@ Route::get('/profile', function () {
 
 
 Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+
+Route::get('/tasks', function () {
+    return view('tasks'); // This assumes you have a blade view named tasks-page.blade.php
+});
+Route::get('/projects', function () {
+    return view('projects'); // This assumes you have a blade view named projects.blade.php
+});
+
+Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
+Route::post('/projects', [ProjectController::class, 'store'])->name('projects_store');
+
+Route::get('/myprojects', [ProjectController::class, 'index'])->name('projects.index');

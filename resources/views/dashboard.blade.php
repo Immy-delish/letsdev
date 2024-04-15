@@ -31,7 +31,7 @@ integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQS
       <div class="card-body">
         <h5 class="card-title">Projects to be takens</h5>
         <p class="card-text">These are projects to be taken</p>
-        <a href="#" class="btn btn-primary">Projects</a>
+        <a href="projects" class="btn btn-primary">Projects</a>
       </div>
     </div>
   </div>
@@ -57,7 +57,7 @@ integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQS
       <div class="card-body">
         <h5 class="card-title">What to Do</h5>
         <p class="card-text">Tasks Taken to achieve the goals.</p>
-        <a href="#" class="btn btn-primary">Tasks</a>
+        <a href="tasks" class="btn btn-primary">Tasks</a>
       </div>
     </div>
   </div>
