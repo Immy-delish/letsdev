@@ -65,3 +65,4 @@ Route::get('/projects/create', [ProjectController::class, 'create'])->name('proj
 Route::post('/projects', [ProjectController::class, 'store'])->name('projects_store');
 
 Route::get('/myprojects', [ProjectController::class, 'index'])->name('projects.index');
+//Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');Display the data on the page.//
