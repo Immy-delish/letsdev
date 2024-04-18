@@ -41,7 +41,7 @@ integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQS
       <div class="card-body">
         <h5 class="card-title">What to Achieve</h5>
         <p class="card-text">Achieve specific goals.</p>
-        <a href="#" class="btn btn-primary">Objectives</a>
+        <a href="objectives" class="btn btn-primary">Objectives</a>
       </div>
     </div>
   </div>

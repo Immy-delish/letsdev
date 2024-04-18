@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ObjectiveController;
 
 
 
@@ -66,3 +67,12 @@ Route::post('/projects', [ProjectController::class, 'store'])->name('projects_st
 
 Route::get('/myprojects', [ProjectController::class, 'index'])->name('projects.index');
 //Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');Display the data on the page.//
+
+
+Route::get('/objectives', [ObjectiveController::class, 'index'])->name('objectives.index');
+Route::get('/objectives/create', [ObjectiveController::class, 'create'])->name('objectives.create');
+Route::post('/objectives/store', [ObjectiveController::class, 'store'])->name('objectives.store');
+Route::get('/objectives/show', [ObjectiveController::class, 'show'])->name('objectives.show');
+Route::get('/objectives/edit', [ObjectiveController::class, 'edit'])->name('objectives.edit');
+Route::put('/objectives/update', [ObjectiveController::class, 'update'])->name('objectives.update');
+Route::delete('/objectives/destroy', [ObjectiveController::class, 'destroy'])->name('objectives.destroy');
