@@ -7,9 +7,6 @@
     <title>Laravel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
-    </script>
 </head>
 <body>
 <div class="container mt-5">
@@ -44,21 +41,19 @@
             @foreach ($contact as $cont)
                 <tr>
                     <!-- <th>{{ $cont->id }}</th> -->
-                    <th>{{ $cont->name }}</th>
-                    <th>{{ $cont->phone }}</th>
-                    <th>{{ $cont->email }}</th>
-                    <th>
-                        <a href="/edit/{{ $cont->id }}" class="btn btn-primary edit-btn" data-id="{{ $cont->id }}"
-                           data-bs-toggle="modal" data-bs-target="#editModal">Edit</a>
+                    <td class="contact-name">{{ $cont->name }}</td>
+                    <td class="contact-phone">{{ $cont->phone }}</td>
+                    <td class="contact-email">{{ $cont->email }}</td>
+                    <td>
+                        <a href="#" class="btn btn-primary edit-btn" data-id="{{ $cont->id }}">Edit</a>
                         <!-- Delete Button -->
-                        <a href="/delete/{{ $cont->id }}" class="btn btn-danger delete-btn" data-id="{{ $cont->id }}"
-                           data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Delete</a>
-                    </th>
+                        <a href="/delete/{{ $cont->id }}" class="btn btn-danger delete-btn" data-id="{{ $cont->id }}">Delete</a>
+                    </td>
                 </tr>
             @endforeach
         @else
             <tr>
-                <th>No Data</th>
+                <td colspan="4">No Data</td>
             </tr>
         @endif
         </tbody>
@@ -66,63 +61,41 @@
 </div>
 
 <!-- Edit Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+<div class="modal fade" id="editContactModal" tabindex="-1" aria-labelledby="editContactModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Contact</h5>
+                <h5 class="modal-title" id="editContactModalLabel">Edit Contact</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="editForm" action="/update/{{ $cont->id }}" method="POST">
+                <form id="editForm">
                     @csrf
                     @method('PUT')
+                    <input type="hidden" id="editId" name="id">
                     <div class="form-group">
                         <label for="editName">Name</label>
-                        <input type="text" class="form-control" id="editName" name="name" value="{{ $cont->name }}">
+                        <input type="text" class="form-control" id="editName" name="name">
                     </div>
                     <div class="form-group">
                         <label for="editPhone">Phone</label>
-                        <input type="text" class="form-control" id="editPhone" name="phone" value="{{ $cont->phone }}">
+                        <input type="text" class="form-control" id="editPhone" name="phone">
                     </div>
                     <div class="form-group">
                         <label for="editEmail">Email</label>
-                        <input type="email" class="form-control" id="editEmail" name="email" value="{{ $cont->email }}">
+                        <input type="email" class="form-control" id="editEmail" name="email">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-primary" id="confirmEdit">Save Changes</button>
-                @csrf
-
             </div>
         </div>
     </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Delete</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delete this contact?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <form id="deleteForm" action="/delete/{{ $cont->id }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
         // Edit Contact
@@ -144,15 +117,18 @@
             var formData = $('#editForm').serialize();
 
             $.ajax({
-                url: '/update',
-                type: 'POST',
+                url: '/update/' + $('#editId').val(),
+                type: 'PUT',
                 data: formData,
                 success: function(response) {
                     // Update contact details on the page
                     var contact = response.contact;
-                    $('#contactName_' + contact.id).text(contact.name);
-                    $('#contactPhone_' + contact.id).text(contact.phone);
-                    $('#contactEmail_' + contact.id).text(contact.email);
+                    $('.contact-name').each(function() {
+                        if ($(this).text() == contact.name) {
+                            $(this).siblings('.contact-phone').text(contact.phone);
+                            $(this).siblings('.contact-email').text(contact.email);
+                        }
+                    });
 
                     // Close the modal
                     $('#editContactModal').modal('hide');
@@ -164,8 +140,6 @@
         });
     });
 </script>
-
-
 
 </body>
 </html>
