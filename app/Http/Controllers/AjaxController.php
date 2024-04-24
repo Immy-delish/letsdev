@@ -45,14 +45,25 @@ class AjaxController extends Controller
      */
     public function store(Request $request)
     {
-        Product::updateOrCreate([
-                    'id' => $request->product_id,
-                    'name' => $request->name, 
-                    'detail' => $request->detail
-                ]);        
-     
-        return response()->json(['success'=>'Record saved successfully.']);
+        $product = Product::find($request->product_id);
+
+        if ($product) {
+            $product->update([
+                'name' => $request->name,
+                'detail' => $request->detail
+            ]);
+            $message = 'Record updated successfully.';
+        } else {
+            $product = new Product;
+            $product->name = $request->name;
+            $product->detail = $request->detail;
+            $product->save();
+            $message = 'Record created successfully.';
+        }
+
+        return response()->json(['success' => $message]);
     }
+    
     /**
      * Show the form for editing the specified resource.
      *

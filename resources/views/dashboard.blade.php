@@ -58,8 +58,7 @@ integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQS
       <div class="card-body">
         <h5 class="card-title">What to Do</h5>
         <p class="card-text">Tasks Taken to achieve the goals.</p>
-        <a href="tasks" class="btn btn-primary">Tasks</a>
-      </div>
+        <a href="{{ route('tasks.index') }}" class="btn btn-primary">Tasks</a>      </div>
     </div>
   </div>
   <div class="col-sm-6">

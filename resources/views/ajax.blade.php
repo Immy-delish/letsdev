@@ -14,8 +14,8 @@
 </head>
 <body>
 <div class="container">
-    <h1>Products App</h1>
-    <a class="btn btn-success" href="javascript:void(0)" id="createNewProduct"> Create New Product</a>
+    <h1>Your Tasks</h1>
+    <a class="btn btn-success" href="javascript:void(0)" id="createNewProduct"> Create a Task</a>
     <table class="table table-bordered data-table">
         <thead>
             <tr>
@@ -70,7 +70,7 @@
     var table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('ajax-crud.index') }}",
+        ajax: "{{ route('tasks.index') }}",
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'name', name: 'name'},
@@ -83,14 +83,14 @@
         $('#saveBtn').val("create-product");
         $('#product_id').val('');
         $('#productForm').trigger("reset");
-        $('#modelHeading').html("Create New Product");
+        $('#modelHeading').html("Create New Task");
         $('#ajaxModel').modal('show');
     });
           
     $('body').on('click', '.editProduct', function () {
         var product_id = $(this).data('id');
-        $.get("{{ route('ajax-crud.index') }}" +'/' + product_id +'/edit', function (data) {
-            $('#modelHeading').html("Edit Product");
+        $.get("{{ route('tasks.index') }}" +'/' + product_id +'/edit', function (data) {
+            $('#modelHeading').html("Edit Task");
             $('#saveBtn').val("edit-user");
             $('#ajaxModel').modal('show');
             $('#product_id').val(data.id);
@@ -105,7 +105,7 @@
       
         $.ajax({
             data: $('#productForm').serialize(),
-            url: "{{ route('ajax-crud.store') }}",
+            url: "{{ route('tasks.store') }}",
             type: "POST",
             dataType: 'json',
             success: function (data) {
@@ -123,13 +123,12 @@
     });
       
     $('body').on('click', '.deleteProduct', function () {
-     
-        var product_id = $(this).data("id");
-        confirm("Are You sure want to delete !");
-        
+    var product_id = $(this).data("id");
+
+    if (confirm("Are You sure want to delete !")) {
         $.ajax({
             type: "DELETE",
-            url: "{{ route('ajax-crud.store') }}"+'/'+product_id,
+            url: "{{ route('tasks.store') }}"+'/'+product_id,
             success: function (data) {
                 table.draw();
             },
@@ -137,7 +136,10 @@
                 console.log('Error:', data);
             }
         });
+    }
+});
+
     });       
-  });
+  
 </script>
 </html>

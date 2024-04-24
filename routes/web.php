@@ -58,9 +58,9 @@ Route::get('/profile', function () {
 })->middleware(['auth', 'verified']);
 Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 
-Route::get('/tasks', function () {
-    return view('tasks'); // This assumes you have a blade view named tasks-page.blade.php
-});
+//Route::get('/tasks', function () {
+    //return view('tasks'); // This assumes you have a blade view named tasks-page.blade.php
+//});
 
 //Project routes//
 Route::get('/projects', function () {
@@ -93,6 +93,6 @@ Route::post('/edit/{id}', [ContactController::class, 'update']);
 // Route for updating the contact
 //Route::post('/update/{id}', [ContactController::class, 'update'])->name('contacts.update');
 
-Route::resource('ajax-crud', AjaxController::class);
+Route::resource('tasks', AjaxController::class);
 
 
