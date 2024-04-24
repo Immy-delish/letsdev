@@ -8,7 +8,7 @@ class ContactController extends Controller
 {
     public function index(Request $req){
         //$contact = Contact::all()->reverse(); for return all columns
-        $contact = Contact::select('id', 'name', 'email')->get()->reverse(); // To return only selected table fields.
+        $contact = Contact::select('id', 'name','phone', 'email')->get()->reverse(); // To return only selected table fields.
 
         return  view('contacts')->with("contact",$contact);
     }
@@ -25,10 +25,14 @@ class ContactController extends Controller
         $contact->delete();
         return redirect()->back();
     }
-    public function edit(Request $req){
-        $contact = Contact::find($req->id);
-        return view('editcontact')->with("contact",$contact);
+    // Method to display the edit form
+    public function edit($id)
+    {
+        $contact = Contact::findOrFail($id);
+        return view('contacts.edit', compact('contact'));
     }
+
+    // Method to update the contact
     public function update(Request $req){
         $contact = Contact::find($req->id);
         $contact->update([
@@ -36,6 +40,9 @@ class ContactController extends Controller
             'phone' => $req->phone,
             'email' => $req->email,
         ]);
-        return redirect()->back();
+    
+        // Return updated contact data
+        return response()->json(['contact' => $contact]);
     }
+    
 }

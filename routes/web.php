@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ObjectiveController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\AjaxController;
+
+
 
 
 
@@ -83,3 +86,13 @@ Route::post('/addcontact', [ContactController::class, 'add']);
 Route::delete('/delete/{id}', [ContactController::class, 'delete']);
 Route::get('/edit/{id}', [ContactController::class, 'edit']);
 Route::post('/edit/{id}', [ContactController::class, 'update']);
+
+// Route for displaying the edit form
+//Route::get('/edit/{id}', [ContactController::class, 'edit'])->name('contacts.edit');
+
+// Route for updating the contact
+//Route::post('/update/{id}', [ContactController::class, 'update'])->name('contacts.update');
+
+Route::resource('ajax-crud', AjaxController::class);
+
+
