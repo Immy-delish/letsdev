@@ -8,6 +8,13 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ObjectiveController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\Main;
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\ItemController;
+
+
+
+
 
 
 
@@ -94,5 +101,10 @@ Route::post('/edit/{id}', [ContactController::class, 'update']);
 //Route::post('/update/{id}', [ContactController::class, 'update'])->name('contacts.update');
 
 Route::resource('tasks', AjaxController::class);
+//Route::post('/checkNameExists', 'AjaxController@checkNameExists')->name('checkNameExists');
+Route::post('/checkNameExists', [AjaxController::class, 'checkNameExists'])->name('checkNameExists');
+
+Route::match(['get', 'post'], '/items/check', [ItemController::class, 'check'])->name('items.check');
+
 
 

@@ -1,11 +1,11 @@
 <?php
-           
+
 namespace App\Http\Controllers;
-            
+
 use App\Models\Product;
 use Illuminate\Http\Request;
 use DataTables;
-          
+
 class AjaxController extends Controller
 {
     /**
@@ -15,28 +15,24 @@ class AjaxController extends Controller
      */
     public function index(Request $request)
     {
-     
         if ($request->ajax()) {
-  
             $data = Product::latest()->get();
-  
+
             return Datatables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('action', function($row){
-   
-                           $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editProduct">Edit</a>';
-   
-                           $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteProduct">Delete</a>';
-    
-                            return $btn;
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editProduct">Edit</a>';
+                    $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-danger btn-sm deleteProduct">Delete</a>';
+
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
-        
+
         return view('ajax');
     }
-       
+
     /**
      * Store a newly created resource in storage.
      *
@@ -63,11 +59,45 @@ class AjaxController extends Controller
 
         return response()->json(['success' => $message]);
     }
-    
+
+    /**
+     * Check if a product name already exists.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     
+    public function checkNameExists(Request $request)
+    {
+        $exists = Product::where('name',$request->name)->get()->first();
+        // dd($exists);
+
+        if($exists == null){
+            $data=['status'=>false];
+            return response()->json($data);
+        }else{
+            $data=['status'=>true];
+            return response()->json($data);
+        }
+    } 
+    */
+   /**
+ * Check if a product name already exists.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return \Illuminate\Http\Response
+ */
+
+public function checkNameExists(Request $request)
+{
+    $exists = Product::where('name', $request->name)->exists();
+
+    return response()->json(['exists' => $exists]);
+}
+
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Product  $product
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -75,11 +105,11 @@ class AjaxController extends Controller
         $product = Product::find($id);
         return response()->json($product);
     }
-    
+
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Product  $product
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
